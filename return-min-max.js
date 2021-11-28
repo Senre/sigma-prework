@@ -18,23 +18,20 @@ function returnMinMax(arr) {
 }
 
 async function replayRMM() {
-    console.log("Enter a range of numbers, each separated by ',' to find the min and max numbers:");
-    const { value: input } = await readLines(Deno.stdin).next();
-    if (input === 'end') {
-        return
-    }
-    const arr = input.split(',').map(num => parseInt(num));
-    if (arr.some(num => isNaN(num))) {
-        console.log('Invalid input. Try again');
-    } else {
-        console.log(returnMinMax(arr));
-    }
-    replayRMM();
-}
-
-function replayWithEndMsg() {
     console.log("Enter 'end' to end");
-    replayRMM();
+    while (true) {
+        console.log("Enter a range of numbers, each separated by ',' to find the min and max numbers:");
+        const { value: input } = await readLines(Deno.stdin).next();
+        if (input === 'end') {
+            break;
+        }
+        const arr = input.split(',').map(num => parseInt(num));
+        if (arr.some(num => isNaN(num))) {
+            console.log("Invalid input. Try again Ex. '2,54,-18,43,13'");
+        } else {
+            console.log(returnMinMax(arr));
+        }
+    }
 }
 
-replayWithEndMsg();
+replayRMM();

@@ -19,25 +19,23 @@ function howManyYearsAgo(myDate) {
 }
 
 async function replayHMYA() {
-    console.log("Enter a date to find how many years ago it was (year-month-day):");
-    const { value: input } = await readLines(Deno.stdin).next();
-    if (input === 'end') {
-        return
-    }
-
-    const yearsDiff = howManyYearsAgo(input);
-    if (isNaN(yearsDiff)) {
-        console.log("Invalid input, try again. Ex. '1999-10-29' for 1999 October 29th");
-    } else {
-        console.log(yearsDiff);
-    }
-    
-    replayHMYA();
-}
-
-function replayHMYAWithEndMsg() {
     console.log("Enter 'end' to end");
-    replayHMYA();
+    while (true) {
+        console.log("Enter a date to find how many years ago it was (year-month-day):");
+        const { value: input } = await readLines(Deno.stdin).next();
+        if (input === 'end') {
+            break;
+        }
+
+        const yearsDiff = howManyYearsAgo(input);
+        if (isNaN(yearsDiff)) {
+            console.log("Invalid input, try again. Ex. '1999-10-29' for 1999 October 29th");
+        } else {
+            console.log(yearsDiff);
+        }
+    }
 }
 
-replayHMYAWithEndMsg();
+replayHMYA();
+
+// change when date is in the future
