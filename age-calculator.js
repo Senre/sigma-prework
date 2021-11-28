@@ -1,8 +1,11 @@
 import { readLines } from 'https://deno.land/std/io/mod.ts';
 
 function howManyYearsAgo(myDate) {
-    const dateNow = new Date();
     const dateStart = new Date(myDate);
+    if (isNaN(dateStart.getTime())) {
+        return "Invalid input, try again. Ex. '1999-10-29' for 1999 October 29th"
+    }
+    const dateNow = new Date();
 
     let years = dateNow.getFullYear() - dateStart.getFullYear();
     // check difference purely from year dates
@@ -15,27 +18,24 @@ function howManyYearsAgo(myDate) {
             years--;
         }
     }
+
+    if (years < 0) {
+        return "The date you have entered is in the future. Try again"
+    }
     return years;
 }
 
 async function replayHMYA() {
     console.log("Enter 'end' to end");
+
     while (true) {
         console.log("Enter a date to find how many years ago it was (year-month-day):");
         const { value: input } = await readLines(Deno.stdin).next();
         if (input === 'end') {
             break;
         }
-
-        const yearsDiff = howManyYearsAgo(input);
-        if (isNaN(yearsDiff)) {
-            console.log("Invalid input, try again. Ex. '1999-10-29' for 1999 October 29th");
-        } else {
-            console.log(yearsDiff);
-        }
+        console.log(howManyYearsAgo(input));
     }
 }
 
 replayHMYA();
-
-// change when date is in the future
